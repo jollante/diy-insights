@@ -9,7 +9,7 @@ browser.webNavigation.onCompleted.addListener((details) => {
 });
 
 function sendUrlChangedEvent(tabId, url, message = 'loadCompleted') {
-    if(tabId && url) {
+    if(tabId && url && url.indexOf('/sold_items') !== -1) {
         browser.tabs.sendMessage(tabId, {
             message,
             url
