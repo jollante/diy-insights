@@ -1,0 +1,35 @@
+{
+  "name": "Makerist Analytics & Insights",
+  "description": "Übersicht über deine Einnahmen bei Makerist.",
+  "version": "2.2.0",
+  "manifest_version": 2,
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://partner.makerist.com/*"
+      ],
+      "css": [
+        "main.css"
+      ],
+      "js": [
+        "chart.min.js",
+        "moment.min.js",
+        "orderChart.js",
+        "contentScript.js"       
+      ]
+    }
+  ],
+  "permissions": [
+    "tabs",
+    "webNavigation"
+  ],
+  "icons": { 
+      "16": "/images/makerist_insights16.png",
+      "32": "/images/makerist_insights32.png",
+      "48": "/images/makerist_insights48.png",
+      "128": "/images/makerist_insights128.png"
+  }
+}
