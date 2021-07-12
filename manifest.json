@@ -1,7 +1,7 @@
 {
-  "name": "Makerist Analytics & Insights",
+  "name": "Analytics & Insights",
   "description": "Übersicht über deine Einnahmen bei Makerist.",
-  "version": "2.2.1",
+  "version": "2.2.3",
   "manifest_version": 2,
   "background": {
     "scripts": ["background.js"]

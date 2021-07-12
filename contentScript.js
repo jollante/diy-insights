@@ -420,7 +420,7 @@ if(location.href.indexOf('/sold_items') !== -1) {
                     let summeNetto = 0;
                     let summeBrutto = 0;
                     let momentMinDate = moment(minDate.value, 'DD.MM.YYYY');
-                    let momentMaxDate = moment(maxDate.value, 'DD.MM.YYYY');
+                    let momentMaxDate = maxDate.value ? moment(maxDate.value, 'DD.MM.YYYY') : moment();
                     let dayDiff = getDiffDays(momentMinDate, momentMaxDate) + 2;
                     let startDate = getNewDate(momentMinDate, dayDiff);
                     let endDate = momentMinDate;
@@ -458,7 +458,7 @@ if(location.href.indexOf('/sold_items') !== -1) {
                     summeBrutto = 0;
                     let allSales = JSON.parse(localStorage.getItem("allSales"));
                     let momentMinDate = moment(minDate.value, 'DD.MM.YYYY');
-                    let momentMaxDate = moment(maxDate.value, 'DD.MM.YYYY');
+                    let momentMaxDate = maxDate.value ? moment(maxDate.value, 'DD.MM.YYYY') : moment();
                     let startDate = getNewDate(momentMinDate, 1);
                     let endDate = getNewDate(momentMaxDate, -1);
 
