@@ -1,7 +1,7 @@
 {
   "name": "Analytics & Insights",
-  "description": "Übersicht über deine Einnahmen bei Makerist.",
-  "version": "2.2.3",
+  "description": "Inoffizielle Erweiterung für mehr Übersicht über deine Einnahmen bei Makerist.",
+  "version": "2.2.4",
   "manifest_version": 2,
   "background": {
     "scripts": ["background.js"]
