@@ -1,12 +1,12 @@
 const browser = chrome || browser;
 
-// check if user is on the sales overview pages
-if (location.href.indexOf('/sold_items') !== -1) {
-    browser.runtime.onMessage.addListener(function (request) {
+
+browser.runtime.onMessage.addListener(function (request) {
+    // check if user is on the sales overview pages
+    if (request.url.indexOf('/sold_items') !== -1) {
         if (location.search.length > 0 && location.search.indexOf('dataFilterUsed') === -1) {
             location.href = location.origin + location.pathname;
         } else {
-
             let loadMoreBtn = document.getElementById('load-more');
             let table = document.getElementById('sold-items-table-body');
             let minDate = document.getElementById('date_min');
@@ -63,14 +63,13 @@ if (location.href.indexOf('/sold_items') !== -1) {
 
                     function loadData() {
                         loadMore = setInterval(function () {
-                            if (loadMoreBtn && loadMoreBtn.style.display !== 'none') {
-                                loadMoreBtn.click();
+                                if (loadMoreBtn && loadMoreBtn.style.display !== 'none') {
+                                    loadMoreBtn.click();
+                                } else {
+                                    clearInterval(loadMore);
+                                    initApplication();
+                                }
                             }
-                            else {
-                                clearInterval(loadMore);
-                                initApplication();
-                            }
-                        }
                             , 300)
                     }
 
@@ -139,8 +138,7 @@ if (location.href.indexOf('/sold_items') !== -1) {
                             topListe[order.ebookName].menge += order.menge;
                             topListe[order.ebookName].nettoAuszahlung += order.nettoAuszahlung;
                             topListe[order.ebookName].bruttoAuszahlung += order.bruttoAuszahlung;
-                        }
-                        else {
+                        } else {
                             topListe[order.ebookName] = {
                                 menge: order.menge,
                                 nettoAuszahlung: order.nettoAuszahlung,
@@ -272,8 +270,7 @@ if (location.href.indexOf('/sold_items') !== -1) {
                             if (minDate.value && ebookFilter.value == '' && localStorage.key('allSales')) {
                                 nettoText.textContent = summeNetto.toFixed(2) + ' €';
                                 bruttoText.textContent = summeBrutto.toFixed(2) + ' €';
-                            }
-                            else {
+                            } else {
                                 nettoText.textContent = orderData.totalNetto.toFixed(2) + ' €';
                                 bruttoText.textContent = orderData.totalBrutto.toFixed(2) + ' €';
                             }
@@ -286,8 +283,7 @@ if (location.href.indexOf('/sold_items') !== -1) {
                                 if (orderData.top5Menge[i]) {
                                     topMengeEbook[i].textContent = i + 1 + '. ' + orderData.top5Menge[i].name;
                                     topMenge[i].textContent = orderData.top5Menge[i].menge;
-                                }
-                                else {
+                                } else {
                                     topMengeEbook[i].textContent = '';
                                     topMenge[i].textContent = '';
                                 }
@@ -295,8 +291,7 @@ if (location.href.indexOf('/sold_items') !== -1) {
                                 if (orderData.top5Auszahlung[i]) {
                                     topAuszEbook[i].textContent = i + 1 + '. ' + orderData.top5Auszahlung[i].name;
                                     topAusz[i].textContent = orderData.top5Auszahlung[i].nettoAuszahlung.toFixed(2) + ' €';
-                                }
-                                else {
+                                } else {
                                     topAuszEbook[i].textContent = '';
                                     topAusz[i].textContent = '';
                                 }
@@ -320,8 +315,7 @@ if (location.href.indexOf('/sold_items') !== -1) {
                                     if (prozGrowthNetto > 1000) {
                                         nettoGrowthSpan.style.fontSize = '18px';
                                         bruttoGrowthSpan.style.fontSize = '18px';
-                                    }
-                                    else {
+                                    } else {
                                         nettoGrowthSpan.style.fontSize = '22px';
                                         bruttoGrowthSpan.style.fontSize = '22px';
                                     }
@@ -335,16 +329,13 @@ if (location.href.indexOf('/sold_items') !== -1) {
                                     if (prozGrowthNetto > 1000) {
                                         nettoGrowthSpan.style.fontSize = '18px';
                                         bruttoGrowthSpan.style.fontSize = '18px';
-                                    }
-                                    else {
+                                    } else {
                                         nettoGrowthSpan.style.fontSize = '22px';
                                         bruttoGrowthSpan.style.fontSize = '22px';
                                     }
                                 }
                             }
-                        }
-
-                        else {
+                        } else {
 
                             if (!document.getElementById('ai-period-note')) {
                                 let choosePeriodNote = document.createElement('div');
@@ -385,7 +376,7 @@ if (location.href.indexOf('/sold_items') !== -1) {
                             });
                         });
 
-                        var config = { childList: true, characterData: true };
+                        var config = {childList: true, characterData: true};
 
                         observer.observe(mutationTarget, config);
                     }
@@ -478,8 +469,7 @@ if (location.href.indexOf('/sold_items') !== -1) {
                                     summeNetto += netto;
                                     let brutto = allSales[i].bruttoAuszahlung;
                                     summeBrutto += brutto;
-                                }
-                                else {
+                                } else {
                                     if (ebookFilterEbookName.title == allSales[i].ebookName) {
                                         let netto = allSales[i].nettoAuszahlung;
                                         summeNetto += netto;
@@ -517,5 +507,5 @@ if (location.href.indexOf('/sold_items') !== -1) {
                 }
             }
         }
-    });
-}
+    }
+});
