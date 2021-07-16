@@ -2,6 +2,21 @@
     box-sizing: border-box;
 }
 
+.ai-note-section {
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    background-color: #bce0d8;
+}
+
+.ai-note {
+    margin-bottom: 0;
+}
+
+.ai-note-span {
+    font-weight: bold;
+}
+
 .mi-h3 {
     margin-top: 1.2em;
     margin-bottom: 1em;
