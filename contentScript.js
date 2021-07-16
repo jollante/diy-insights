@@ -347,11 +347,11 @@ if (location.href.indexOf('/sold_items') !== -1) {
                         else {
 
                             if (!document.getElementById('ai-period-note')) {
-                            let choosePeriodNote = document.createElement('div');
-                            choosePeriodNote.setAttribute('class', 'ai-note-section');
-                            choosePeriodNote.setAttribute('id', 'ai-period-note');
-                            choosePeriodNote.textContent = 'Keine Verkäufe im gewählten Zeitraum. Um Analytics & Insights zu verwenden wähle einen anderen Zeitraum.';
-                            posHeading1.insertBefore(choosePeriodNote, posHeading2);
+                                let choosePeriodNote = document.createElement('div');
+                                choosePeriodNote.setAttribute('class', 'ai-note-section');
+                                choosePeriodNote.setAttribute('id', 'ai-period-note');
+                                choosePeriodNote.textContent = 'Keine Verkäufe im gewählten Zeitraum. Um Analytics & Insights zu verwenden wähle einen anderen Zeitraum.';
+                                posHeading1.insertBefore(choosePeriodNote, posHeading2);
                             }
                             insightsWrapper.style.display = 'none';
                             chartWrapper.style.display = 'none';
