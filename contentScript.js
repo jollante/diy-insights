@@ -7,6 +7,7 @@ browser.runtime.onMessage.addListener(function (request) {
         if (location.search.length > 0 && location.search.indexOf('dataFilterUsed') === -1) {
             location.href = location.origin + location.pathname;
         } else {
+
             let loadMoreBtn = document.getElementById('load-more');
             let table = document.getElementById('sold-items-table-body');
             let minDate = document.getElementById('date_min');
@@ -22,19 +23,30 @@ browser.runtime.onMessage.addListener(function (request) {
             let summeNetto;
             let summeBrutto;
 
+            if (document.getElementById('ai-insights-wrapper')) {
+                document.getElementById('ai-insights-wrapper').remove();
+                document.getElementById('chart-wrapper').remove();
+            }
+
             let noteSection = document.createElement('div');
             noteSection.setAttribute('class', 'ai-note-section');
+            noteSection.setAttribute('id', 'ai-note-section');
             noteSection.innerHTML = '<p class="ai-note">Um Analytics & Insights zu verwenden wähle einen Zeitraum und drücke auf <span class="ai-note-span">FILTER ANWENDEN</span>.</p>'
             let posHeading1 = document.getElementsByClassName('sold-items-container')[0];
             let posHeading2 = document.getElementsByClassName('table-header')[1];
             posHeading1.insertBefore(noteSection, posHeading2);
 
-            if (table) {
-                filterBtn.onclick = function () {
+            filterBtn.onclick = function () {
+
+                if (table) {
                     if (request.message === 'tabUpdated') {
                         location.href = location.href;
                     }
-                    noteSection.remove();
+
+                    let noteSection = document.getElementById('ai-note-section');
+                    if (noteSection) {
+                        noteSection.remove();
+                    }
 
                     elementUebersicht()
 
@@ -60,16 +72,17 @@ browser.runtime.onMessage.addListener(function (request) {
 
                     const nettoBtn = document.getElementsByClassName('top5-ausz-btn')[0];
                     const bruttoBtn = document.getElementsByClassName('top5-ausz-btn')[1];
+                
 
                     function loadData() {
                         loadMore = setInterval(function () {
-                                if (loadMoreBtn && loadMoreBtn.style.display !== 'none') {
-                                    loadMoreBtn.click();
-                                } else {
-                                    clearInterval(loadMore);
-                                    initApplication();
-                                }
+                            if (loadMoreBtn && loadMoreBtn.style.display !== 'none') {
+                                loadMoreBtn.click();
+                            } else {
+                                clearInterval(loadMore);
+                                initApplication();
                             }
+                        }
                             , 300)
                     }
 
@@ -191,6 +204,7 @@ browser.runtime.onMessage.addListener(function (request) {
                         let top5AuszahlungsWrapper = document.createElement('div');
 
                         insightsWrapper.classList.add('insights-wrapper');
+                        insightsWrapper.setAttribute('id', 'ai-insights-wrapper');
                         auszahlungWrapper.classList.add('d-flex-33', 'table-header');
                         top5MengeWrapper.classList.add('d-flex-33', 'table-header');
                         top5AuszahlungsWrapper.classList.add('d-flex-33', 'table-header');
@@ -355,6 +369,7 @@ browser.runtime.onMessage.addListener(function (request) {
                     }
 
                     filterBtn.onclick = function () {
+                        debugger;
                         clearArray();
                         clearTopListe();
                         clearUebersichtText();
@@ -376,7 +391,7 @@ browser.runtime.onMessage.addListener(function (request) {
                             });
                         });
 
-                        var config = {childList: true, characterData: true};
+                        var config = { childList: true, characterData: true };
 
                         observer.observe(mutationTarget, config);
                     }
