@@ -1,7 +1,31 @@
 const browser = chrome || browser;
 
+let renderApplication = function () {
+
+    if (document.getElementById('ai-insights-wrapper')) {
+        document.getElementById('ai-insights-wrapper').remove();
+        document.getElementById('chart-wrapper').remove();
+    }
+
+    if (document.getElementById('ai-note-section')) {
+        document.getElementById('ai-note-section').remove();
+    }
+
+    let noteSection = document.createElement('div');
+    noteSection.setAttribute('class', 'ai-note-section');
+    noteSection.setAttribute('id', 'ai-note-section');
+    noteSection.innerHTML = '<p class="ai-note" id="ai-note">Um Analytics & Insights zu verwenden wähle einen Zeitraum und drücke auf <span class="ai-note-span">FILTER ANWENDEN</span>.</p>'
+    let posHeading1 = document.getElementsByClassName('sold-items-container')[0];
+    let posHeading2 = document.getElementsByClassName('table-header')[1];
+    posHeading1.insertBefore(noteSection, posHeading2);
+}
+
+document.addEventListener('turbolinks:render', () => {
+    location.reload(true);
+})
 
 browser.runtime.onMessage.addListener(function (request) {
+
     // check if user is on the sales overview pages
     if (request.url.indexOf('/sold_items') !== -1) {
         if (location.search.length > 0 && location.search.indexOf('dataFilterUsed') === -1) {
@@ -23,18 +47,7 @@ browser.runtime.onMessage.addListener(function (request) {
             let summeNetto;
             let summeBrutto;
 
-            if (document.getElementById('ai-insights-wrapper')) {
-                document.getElementById('ai-insights-wrapper').remove();
-                document.getElementById('chart-wrapper').remove();
-            }
-
-            let noteSection = document.createElement('div');
-            noteSection.setAttribute('class', 'ai-note-section');
-            noteSection.setAttribute('id', 'ai-note-section');
-            noteSection.innerHTML = '<p class="ai-note">Um Analytics & Insights zu verwenden wähle einen Zeitraum und drücke auf <span class="ai-note-span">FILTER ANWENDEN</span>.</p>'
-            let posHeading1 = document.getElementsByClassName('sold-items-container')[0];
-            let posHeading2 = document.getElementsByClassName('table-header')[1];
-            posHeading1.insertBefore(noteSection, posHeading2);
+            renderApplication();
 
             filterBtn.onclick = function () {
 
@@ -68,11 +81,12 @@ browser.runtime.onMessage.addListener(function (request) {
                     let chart;
                     let loadMore;
 
+
                     loadData();
 
                     const nettoBtn = document.getElementsByClassName('top5-ausz-btn')[0];
                     const bruttoBtn = document.getElementsByClassName('top5-ausz-btn')[1];
-                
+
 
                     function loadData() {
                         loadMore = setInterval(function () {
@@ -351,6 +365,12 @@ browser.runtime.onMessage.addListener(function (request) {
                             }
                         } else {
 
+                            insightsWrapper.style.display = 'none';
+                            chartWrapper.style.display = 'none';
+
+                            let posHeading1 = document.getElementsByClassName('sold-items-container')[0];
+                            let posHeading2 = document.getElementsByClassName('table-header')[4];
+
                             if (!document.getElementById('ai-period-note')) {
                                 let choosePeriodNote = document.createElement('div');
                                 choosePeriodNote.setAttribute('class', 'ai-note-section');
@@ -358,8 +378,7 @@ browser.runtime.onMessage.addListener(function (request) {
                                 choosePeriodNote.textContent = 'Keine Verkäufe im gewählten Zeitraum. Um Analytics & Insights zu verwenden wähle einen anderen Zeitraum.';
                                 posHeading1.insertBefore(choosePeriodNote, posHeading2);
                             }
-                            insightsWrapper.style.display = 'none';
-                            chartWrapper.style.display = 'none';
+
                         }
                     }
 
@@ -369,7 +388,7 @@ browser.runtime.onMessage.addListener(function (request) {
                     }
 
                     filterBtn.onclick = function () {
-                        debugger;
+   
                         clearArray();
                         clearTopListe();
                         clearUebersichtText();
